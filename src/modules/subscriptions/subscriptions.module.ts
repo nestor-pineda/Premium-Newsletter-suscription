@@ -6,6 +6,7 @@ import { SubscriptionRepository } from './infrastructure/subscription.repository
 import { PlanRepository } from './infrastructure/plan.repository';
 import { UserCreatedListener } from './application/listeners/user-created.listener';
 import { InvoicePaidListener } from './application/listeners/invoice-paid.listener';
+import { SubscriptionRenewalCron } from './application/cron/subscription-renewal.cron';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { InvoicePaidListener } from './application/listeners/invoice-paid.listen
     PlanRepository,
     UserCreatedListener,
     InvoicePaidListener,
+    SubscriptionRenewalCron,
   ],
   exports: [SubscriptionRepository],
 })

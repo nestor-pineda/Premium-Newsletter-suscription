@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { OutboxRepository } from './outbox.repository';
 import { InMemoryEventBus } from '../event-bus/in-memory-event-bus';
 
@@ -11,7 +12,7 @@ export class OutboxProcessor {
     private readonly bus: InMemoryEventBus,
   ) {}
 
-  // call this periodically (cron) or start a loop
+  @Cron('*/10 * * * * *') // Run every 10 seconds
   async processPending() {
     const pendings = await this.repo.findPending(100);
     if (pendings.length > 0) {
@@ -38,4 +39,3 @@ export class OutboxProcessor {
     }
   }
 }
-

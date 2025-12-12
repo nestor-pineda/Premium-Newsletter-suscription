@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, LessThan } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Subscription, SubscriptionStatus } from '../domain/entities/subscription.entity';
 
@@ -34,5 +34,14 @@ export class SubscriptionRepository {
   async findById(id: string): Promise<Subscription | null> {
       return this.repo.findOne({ where: { id } });
   }
-}
 
+  async findExpiring(date: Date): Promise<Subscription[]> {
+    return this.repo.find({
+      where: {
+        status: 'ACTIVE',
+        endDate: LessThan(date),
+      },
+      relations: ['plan'],
+    });
+  }
+}

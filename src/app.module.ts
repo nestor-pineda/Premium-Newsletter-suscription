@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoreModule } from './core/core.module';
@@ -28,6 +29,7 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
       }),
       inject: [ConfigService],
     }),
+    ScheduleModule.forRoot(),
     CoreModule,
     UsersModule,
     SubscriptionsModule,
