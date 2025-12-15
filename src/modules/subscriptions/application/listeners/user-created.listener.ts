@@ -24,7 +24,7 @@ export class UserCreatedListener implements EventHandler, OnModuleInit {
   }
 
   async handle(event: Event): Promise<void> {
-    const { id: userId, email } = event.payload;
+    const { userId, email } = event.payload; // Corrected: payload.userId is directly available based on CreateUserHandler
     console.log(`[Subscriptions] Handling UserCreated for ${email}`);
 
     // 1. Get Default Plan (ensure it exists)
