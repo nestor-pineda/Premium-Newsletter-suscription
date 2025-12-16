@@ -31,7 +31,6 @@ export class SubscriptionRenewalCron {
       // Emit SubscriptionRenewalDue
       // Ideally this goes to Billing to create a new Invoice
       await this.outboxRepo.save({
-        type: 'SubscriptionCreated', // We re-use this to trigger the billing flow? Or a new event?
         // Let's use SubscriptionCreated as if it's a new cycle, but pointing to existing sub?
         // Or better: SubscriptionRenewalDue -> Billing listens -> Creates Invoice
 

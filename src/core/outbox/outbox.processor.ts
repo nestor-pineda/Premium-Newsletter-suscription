@@ -21,7 +21,7 @@ export class OutboxProcessor {
 
     for (const outboxEvent of pendings) {
       try {
-        await this.repo.markProcessing(o.id);
+        await this.repo.markProcessing(outboxEvent.id);
 
         await this.bus.publish({
           name: outboxEvent.type,
