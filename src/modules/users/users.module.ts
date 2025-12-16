@@ -12,6 +12,6 @@ import { User } from './domain/entities/user.entity';
   ],
   controllers: [UsersController],
   providers: [UserRepository, CreateUserHandler],
-  exports: [UserRepository],
+  exports: [UserRepository, CreateUserHandler],
 })
 export class UsersModule {}

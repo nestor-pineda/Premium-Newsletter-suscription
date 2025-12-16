@@ -2,6 +2,7 @@ import { Injectable, ConflictException } from '@nestjs/common';
 import { CreateUserCommand } from '../commands/create-user.command';
 import { UserRepository } from '../../infrastructure/user.repository';
 import { OutboxRepository } from '../../../../core/outbox/outbox.repository';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class CreateUserHandler {
@@ -20,8 +21,15 @@ export class CreateUserHandler {
     // to ensure user creation and outbox event are atomic.
     // For this MVP, we proceed sequentially.
 
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash(command.password, salt);
+
     // 1. Create User
-    const user = await this.userRepository.create(command.email, command.name);
+    const user = await this.userRepository.create(
+      command.email,
+      passwordHash,
+      command.name,
+    );
 
     // 2. Save Event to Outbox
     await this.outboxRepository.save({

@@ -17,9 +17,8 @@ export class User {
   @Column({ nullable: true })
   name: string;
 
-  // For MVP we can omit password hashing logic for simplicity or just store a stub
-  // @Column()
-  // passwordHash: string;
+  @Column({ name: 'password_hash' })
+  passwordHash: string;
 
   @CreateDateColumn()
   createdAt: Date;
