@@ -1,7 +1,19 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Plan } from './plan.entity';
 
-export type SubscriptionStatus = 'PENDING_PAYMENT' | 'ACTIVE' | 'CANCELLED' | 'EXPIRED';
+export type SubscriptionStatus =
+  | 'PENDING_PAYMENT'
+  | 'ACTIVE'
+  | 'CANCELLED'
+  | 'EXPIRED';
 
 @Entity('subscriptions')
 export class Subscription {
@@ -36,4 +48,3 @@ export class Subscription {
   @UpdateDateColumn()
   updatedAt: Date;
 }
-

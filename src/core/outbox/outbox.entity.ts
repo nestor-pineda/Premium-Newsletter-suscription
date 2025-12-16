@@ -1,4 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+} from 'typeorm';
 
 export type OutboxStatus = 'pending' | 'processing' | 'sent' | 'failed';
 
@@ -37,4 +42,3 @@ export class OutboxEvent {
   @Column({ nullable: true })
   processedAt: Date;
 }
-

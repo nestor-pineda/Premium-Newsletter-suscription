@@ -7,19 +7,8 @@ import { OutboxProcessor } from './outbox/outbox.processor';
 
 @Global()
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([OutboxEvent]),
-  ],
-  providers: [
-    InMemoryEventBus,
-    OutboxRepository,
-    OutboxProcessor,
-  ],
-  exports: [
-    InMemoryEventBus,
-    OutboxRepository,
-    OutboxProcessor,
-  ],
+  imports: [TypeOrmModule.forFeature([OutboxEvent])],
+  providers: [InMemoryEventBus, OutboxRepository, OutboxProcessor],
+  exports: [InMemoryEventBus, OutboxRepository, OutboxProcessor],
 })
 export class CoreModule {}
-

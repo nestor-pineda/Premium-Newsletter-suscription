@@ -36,4 +36,3 @@ export class OutboxRepository {
     await this.repo.update(id, { status: 'failed' });
   }
 }
-

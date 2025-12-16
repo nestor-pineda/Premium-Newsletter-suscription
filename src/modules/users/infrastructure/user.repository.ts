@@ -23,4 +23,3 @@ export class UserRepository {
     return this.repo.findOne({ where: { id } });
   }
 }
-

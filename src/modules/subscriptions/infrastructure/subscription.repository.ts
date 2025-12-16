@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { Repository, LessThan } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Subscription, SubscriptionStatus } from '../domain/entities/subscription.entity';
+import {
+  Subscription,
+  SubscriptionStatus,
+} from '../domain/entities/subscription.entity';
 
 @Injectable()
 export class SubscriptionRepository {
@@ -19,20 +22,28 @@ export class SubscriptionRepository {
     return this.repo.save(sub);
   }
 
-  async updateStatus(id: string, status: SubscriptionStatus, startDate?: Date, endDate?: Date): Promise<void> {
+  async updateStatus(
+    id: string,
+    status: SubscriptionStatus,
+    startDate?: Date,
+    endDate?: Date,
+  ): Promise<void> {
     const updateData: any = { status };
     if (startDate) updateData.startDate = startDate;
     if (endDate) updateData.endDate = endDate;
-    
+
     await this.repo.update(id, updateData);
   }
 
   async findByUserId(userId: string): Promise<Subscription | null> {
-    return this.repo.findOne({ where: { userId }, order: { createdAt: 'DESC' } });
+    return this.repo.findOne({
+      where: { userId },
+      order: { createdAt: 'DESC' },
+    });
   }
-  
+
   async findById(id: string): Promise<Subscription | null> {
-      return this.repo.findOne({ where: { id } });
+    return this.repo.findOne({ where: { id } });
   }
 
   async findExpiring(date: Date): Promise<Subscription[]> {

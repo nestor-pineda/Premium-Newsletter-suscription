@@ -21,4 +21,3 @@ export class InMemoryEventBus implements EventBus {
     for (const e of events) await this.publish(e);
   }
 }
-

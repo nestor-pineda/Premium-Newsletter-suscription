@@ -6,4 +6,3 @@ export interface EventBus {
   publishAll(events: Event[]): Promise<void>;
   register(handler: EventHandler): void;
 }
-

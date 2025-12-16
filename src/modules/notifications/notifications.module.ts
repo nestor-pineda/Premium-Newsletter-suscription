@@ -19,4 +19,3 @@ import { NewsletterCron } from './application/cron/newsletter.cron';
   exports: [],
 })
 export class NotificationsModule {}
-

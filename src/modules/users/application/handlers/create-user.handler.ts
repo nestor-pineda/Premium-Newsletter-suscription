@@ -39,4 +39,3 @@ export class CreateUserHandler {
     return user;
   }
 }
-

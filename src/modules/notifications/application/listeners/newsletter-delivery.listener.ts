@@ -28,4 +28,3 @@ export class NewsletterDeliveryListener implements EventHandler, OnModuleInit {
     await this.notificationService.sendWeeklyNewsletter(fakeSubscribers);
   }
 }
-

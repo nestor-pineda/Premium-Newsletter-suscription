@@ -4,4 +4,3 @@ export class CreateUserCommand {
     public readonly name?: string,
   ) {}
 }
-

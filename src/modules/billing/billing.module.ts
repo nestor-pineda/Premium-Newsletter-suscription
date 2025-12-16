@@ -11,12 +11,7 @@ import { SubscriptionCreatedListener } from './application/listeners/subscriptio
     TypeOrmModule.forFeature([Invoice, PaymentAttempt]),
     // CoreModule is Global
   ],
-  providers: [
-    InvoiceRepository,
-    PaymentGateway,
-    SubscriptionCreatedListener,
-  ],
+  providers: [InvoiceRepository, PaymentGateway, SubscriptionCreatedListener],
   exports: [InvoiceRepository],
 })
 export class BillingModule {}
-

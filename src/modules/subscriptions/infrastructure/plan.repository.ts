@@ -30,4 +30,3 @@ export class PlanRepository {
     return this.repo.findOne({ where: { id } });
   }
 }
-

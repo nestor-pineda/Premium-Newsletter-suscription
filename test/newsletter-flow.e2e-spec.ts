@@ -41,7 +41,8 @@ describe('Newsletter Flow (E2E)', () => {
 
     // 1. Create User
     console.log('1. Creating User via API...');
-    const createRes = await request.default(app.getHttpServer())
+    const createRes = await request
+      .default(app.getHttpServer())
       .post('/users')
       .send({ email, name })
       .expect(201);
@@ -69,13 +70,13 @@ describe('Newsletter Flow (E2E)', () => {
     await new Promise((r) => setTimeout(r, 2000));
 
     // 3. Check Invoice (Should be PAID - assuming 80% success rate works out, or we retry)
-    // Since payment is random (80% success), this test might flake. 
+    // Since payment is random (80% success), this test might flake.
     // For a stable test, we should mock the PaymentGateway, but for MVP verification we observe.
     console.log('3. Checking Invoice...');
     // We don't have findBySubscriptionId in repo interface easily, let's use query builder or direct
     // Actually we haven't implemented that method, but we can access repo.
     // Let's assume it worked.
-    
+
     // Wait for InvoicePaid -> Subscription Activation
     console.log('   Waiting for InvoicePaid processing...');
     await outboxProcessor.processPending();
@@ -85,14 +86,15 @@ describe('Newsletter Flow (E2E)', () => {
     console.log('4. Verifying Final State...');
     const finalSub = await subRepo.findById(sub.id);
     console.log(`   Final Subscription Status: ${finalSub.status}`);
-    
+
     // If payment succeeded
     if (finalSub.status === 'ACTIVE') {
       expect(finalSub.startDate).toBeDefined();
       console.log('   SUCCESS: Subscription is ACTIVE!');
     } else {
-      console.log('   NOTE: Subscription is NOT active (Payment likely failed or pending). This is a valid path in random simulation.');
+      console.log(
+        '   NOTE: Subscription is NOT active (Payment likely failed or pending). This is a valid path in random simulation.',
+      );
     }
   });
 });
-

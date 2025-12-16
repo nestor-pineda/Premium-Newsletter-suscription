@@ -13,7 +13,12 @@ export class InvoiceRepository {
     private readonly attemptRepo: Repository<PaymentAttempt>,
   ) {}
 
-  async create(userId: string, subscriptionId: string, amount: number, currency = 'USD'): Promise<Invoice> {
+  async create(
+    userId: string,
+    subscriptionId: string,
+    amount: number,
+    currency = 'USD',
+  ): Promise<Invoice> {
     const invoice = this.repo.create({
       userId,
       subscriptionId,
@@ -24,7 +29,12 @@ export class InvoiceRepository {
     return this.repo.save(invoice);
   }
 
-  async addAttempt(invoiceId: string, success: boolean, transactionId?: string, errorReason?: string): Promise<PaymentAttempt> {
+  async addAttempt(
+    invoiceId: string,
+    success: boolean,
+    transactionId?: string,
+    errorReason?: string,
+  ): Promise<PaymentAttempt> {
     const attempt = this.attemptRepo.create({
       invoiceId,
       success,
@@ -34,10 +44,13 @@ export class InvoiceRepository {
     return this.attemptRepo.save(attempt);
   }
 
-  async updateStatus(id: string, status: InvoiceStatus, paidAt?: Date): Promise<void> {
+  async updateStatus(
+    id: string,
+    status: InvoiceStatus,
+    paidAt?: Date,
+  ): Promise<void> {
     const updateData: any = { status };
     if (paidAt) updateData.paidAt = paidAt;
     await this.repo.update(id, updateData);
   }
 }
-

@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from 'typeorm';
 import { PaymentAttempt } from './payment-attempt.entity';
 
 export type InvoiceStatus = 'PENDING' | 'PAID' | 'FAILED';
@@ -35,7 +42,8 @@ export class Invoice {
   @Column({ nullable: true })
   paidAt: Date;
 
-  @OneToMany(() => PaymentAttempt, (attempt) => attempt.invoice, { cascade: true })
+  @OneToMany(() => PaymentAttempt, (attempt) => attempt.invoice, {
+    cascade: true,
+  })
   attempts: PaymentAttempt[];
 }
-

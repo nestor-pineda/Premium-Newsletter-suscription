@@ -22,7 +22,7 @@ export class OutboxProcessor {
     for (const o of pendings) {
       try {
         await this.repo.markProcessing(o.id);
-        
+
         await this.bus.publish({
           name: o.type,
           payload: o.payload,
@@ -30,7 +30,9 @@ export class OutboxProcessor {
         });
 
         await this.repo.markSent(o.id);
-        this.logger.debug(`Event ${o.type} (id: ${o.id}) processed successfully`);
+        this.logger.debug(
+          `Event ${o.type} (id: ${o.id}) processed successfully`,
+        );
       } catch (err) {
         this.logger.error(`Failed to process event ${o.id}`, err);
         // simple retry policy

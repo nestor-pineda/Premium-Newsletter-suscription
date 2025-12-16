@@ -21,7 +21,10 @@ export class PaymentFailedListener implements EventHandler, OnModuleInit {
 
   async handle(event: Event): Promise<void> {
     const { userId, invoiceId, reason } = event.payload;
-    await this.notificationService.sendPaymentRetryWarning(userId, invoiceId, reason);
+    await this.notificationService.sendPaymentRetryWarning(
+      userId,
+      invoiceId,
+      reason,
+    );
   }
 }
-

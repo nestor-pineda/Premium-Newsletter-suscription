@@ -9,7 +9,7 @@ export class NewsletterCron {
   constructor(private readonly outboxRepo: OutboxRepository) {}
 
   // Run every minute for demo (normally weekly)
-  @Cron('0 * * * * *') 
+  @Cron('0 * * * * *')
   async triggerNewsletter() {
     this.logger.log('Triggering Weekly Newsletter...');
 
@@ -26,4 +26,3 @@ export class NewsletterCron {
     });
   }
 }
-

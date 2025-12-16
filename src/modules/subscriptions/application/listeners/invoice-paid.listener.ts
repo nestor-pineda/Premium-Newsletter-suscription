@@ -23,7 +23,9 @@ export class InvoicePaidListener implements EventHandler, OnModuleInit {
 
   async handle(event: Event): Promise<void> {
     const { subscriptionId, paidAt } = event.payload;
-    console.log(`[Subscriptions] Handling InvoicePaid for sub ${subscriptionId}`);
+    console.log(
+      `[Subscriptions] Handling InvoicePaid for sub ${subscriptionId}`,
+    );
 
     const subscription = await this.subscriptionRepo.findById(subscriptionId);
     if (!subscription) {
@@ -35,14 +37,19 @@ export class InvoicePaidListener implements EventHandler, OnModuleInit {
     const startDate = new Date(paidAt);
     const endDate = new Date(startDate);
     // Assuming 1 month duration for MVP, ideally fetch plan duration
-    // For MVP simplicity: hardcoded 1 month logic here or fetch plan. 
+    // For MVP simplicity: hardcoded 1 month logic here or fetch plan.
     // We already have plan loaded via relation? No, we need to load it or just assume 30 days.
     // Let's assume 30 days for now to keep it simple, or better yet, fetch the plan if needed.
     // But since `subscription.plan` might not be loaded, let's just add 30 days.
     endDate.setDate(endDate.getDate() + 30);
 
     // Update Subscription
-    await this.subscriptionRepo.updateStatus(subscriptionId, 'ACTIVE', startDate, endDate);
+    await this.subscriptionRepo.updateStatus(
+      subscriptionId,
+      'ACTIVE',
+      startDate,
+      endDate,
+    );
 
     // Emit SubscriptionActivated
     await this.outboxRepo.save({
@@ -57,8 +64,7 @@ export class InvoicePaidListener implements EventHandler, OnModuleInit {
       aggregateType: 'Subscription',
       occurredAt: new Date().toISOString(),
     });
-    
+
     console.log(`[Subscriptions] Activated subscription ${subscription.id}`);
   }
 }
-

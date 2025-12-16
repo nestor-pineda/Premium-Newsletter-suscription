@@ -8,7 +8,11 @@ export interface PaymentResult {
 
 @Injectable()
 export class PaymentGateway {
-  async charge(amount: number, currency: string, sourceId: string): Promise<PaymentResult> {
+  async charge(
+    amount: number,
+    currency: string,
+    sourceId: string,
+  ): Promise<PaymentResult> {
     // Simulate API call delay
     await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -28,4 +32,3 @@ export class PaymentGateway {
     }
   }
 }
-

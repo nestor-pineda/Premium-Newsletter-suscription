@@ -24,4 +24,3 @@ export class InvoicePaidListener implements EventHandler, OnModuleInit {
     await this.notificationService.sendWelcomeEmail(userId, subscriptionId);
   }
 }
-

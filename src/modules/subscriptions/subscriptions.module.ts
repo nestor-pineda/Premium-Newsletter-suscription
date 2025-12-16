@@ -23,4 +23,3 @@ import { SubscriptionRenewalCron } from './application/cron/subscription-renewal
   exports: [SubscriptionRepository],
 })
 export class SubscriptionsModule {}
-

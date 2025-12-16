@@ -11,11 +11,7 @@ import { User } from './domain/entities/user.entity';
     // CoreModule is Global, so OutboxRepository is available
   ],
   controllers: [UsersController],
-  providers: [
-    UserRepository,
-    CreateUserHandler,
-  ],
+  providers: [UserRepository, CreateUserHandler],
   exports: [UserRepository],
 })
 export class UsersModule {}
-

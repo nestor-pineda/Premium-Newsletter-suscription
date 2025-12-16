@@ -47,7 +47,8 @@ export class UserCreatedListener implements EventHandler, OnModuleInit {
       occurredAt: new Date().toISOString(),
     });
 
-    console.log(`[Subscriptions] Created pending subscription ${subscription.id}`);
+    console.log(
+      `[Subscriptions] Created pending subscription ${subscription.id}`,
+    );
   }
 }
-

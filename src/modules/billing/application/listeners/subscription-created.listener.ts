@@ -25,14 +25,24 @@ export class SubscriptionCreatedListener implements EventHandler, OnModuleInit {
 
   async handle(event: Event): Promise<void> {
     const { subscriptionId, userId, price } = event.payload;
-    console.log(`[Billing] Handling SubscriptionCreated for sub ${subscriptionId}`);
+    console.log(
+      `[Billing] Handling SubscriptionCreated for sub ${subscriptionId}`,
+    );
 
     // 1. Generate Invoice
-    const invoice = await this.invoiceRepo.create(userId, subscriptionId, price);
+    const invoice = await this.invoiceRepo.create(
+      userId,
+      subscriptionId,
+      price,
+    );
 
     // 2. Attempt Payment
     console.log(`[Billing] Attempting payment for invoice ${invoice.id}...`);
-    const paymentResult = await this.paymentGateway.charge(price, 'USD', 'tok_visa'); // sourceId would normally come from user stored payment methods
+    const paymentResult = await this.paymentGateway.charge(
+      price,
+      'USD',
+      'tok_visa',
+    ); // sourceId would normally come from user stored payment methods
 
     // 3. Record Attempt
     await this.invoiceRepo.addAttempt(
@@ -46,7 +56,7 @@ export class SubscriptionCreatedListener implements EventHandler, OnModuleInit {
       // 4a. Success Flow
       const paidAt = new Date();
       await this.invoiceRepo.updateStatus(invoice.id, 'PAID', paidAt);
-      
+
       console.log(`[Billing] Payment Successful for invoice ${invoice.id}`);
 
       // Emit InvoicePaid
@@ -67,8 +77,10 @@ export class SubscriptionCreatedListener implements EventHandler, OnModuleInit {
     } else {
       // 4b. Failure Flow
       await this.invoiceRepo.updateStatus(invoice.id, 'FAILED');
-      
-      console.warn(`[Billing] Payment Failed for invoice ${invoice.id}: ${paymentResult.error}`);
+
+      console.warn(
+        `[Billing] Payment Failed for invoice ${invoice.id}: ${paymentResult.error}`,
+      );
 
       // Emit PaymentFailed
       await this.outboxRepo.save({
@@ -87,4 +99,3 @@ export class SubscriptionCreatedListener implements EventHandler, OnModuleInit {
     }
   }
 }
-

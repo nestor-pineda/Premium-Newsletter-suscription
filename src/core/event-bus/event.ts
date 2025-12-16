@@ -3,4 +3,3 @@ export interface Event {
   readonly payload: any;
   readonly occurredAt: string; // ISO
 }
-
