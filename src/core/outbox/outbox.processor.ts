@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
+import { Cron } from '@nestjs/schedule';
 import { OutboxRepository } from './outbox.repository';
 import { InMemoryEventBus } from '../event-bus/in-memory-event-bus';
 
@@ -19,24 +19,24 @@ export class OutboxProcessor {
       this.logger.debug(`Found ${pendings.length} pending events`);
     }
 
-    for (const o of pendings) {
+    for (const outboxEvent of pendings) {
       try {
         await this.repo.markProcessing(o.id);
 
         await this.bus.publish({
-          name: o.type,
-          payload: o.payload,
-          occurredAt: o.occurredAt,
+          name: outboxEvent.type,
+          payload: outboxEvent.payload,
+          occurredAt: outboxEvent.occurredAt,
         });
 
-        await this.repo.markSent(o.id);
+        await this.repo.markSent(outboxEvent.id);
         this.logger.debug(
-          `Event ${o.type} (id: ${o.id}) processed successfully`,
+          `Event ${outboxEvent.type} (id: ${outboxEvent.id}) processed successfully`,
         );
       } catch (err) {
-        this.logger.error(`Failed to process event ${o.id}`, err);
+        this.logger.error(`Failed to process event ${outboxEvent.id}`, err);
         // simple retry policy
-        await this.repo.markFailed(o.id);
+        await this.repo.markFailed(outboxEvent.id);
       }
     }
   }
