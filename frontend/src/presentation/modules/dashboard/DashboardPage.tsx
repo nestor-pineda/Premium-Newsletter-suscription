@@ -14,15 +14,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/presentation/components/ui/dialog"
-import { CreditCard, Calendar, TrendingUp, AlertCircle, Edit, X, ArrowUpCircle } from "lucide-react"
+import { CreditCard, Calendar, TrendingUp, AlertCircle, Edit, X, ArrowUpCircle, LogOut } from "lucide-react"
 import { Skeleton } from "@/presentation/components/ui/skeleton"
 import Link from "next/link"
 import { useSubscriptionQuery, useInvoicesQuery, useSubscriptionActions } from "@/presentation/hooks/use-subscription"
+import { useAuth } from "@/presentation/hooks/use-auth"
 
 export default function DashboardPage() {
   const { data: subscription, isLoading: isLoadingSub } = useSubscriptionQuery()
   const { data: invoices, isLoading: isLoadingInv } = useInvoicesQuery()
   const { cancelSubscription } = useSubscriptionActions()
+  const { logout } = useAuth()
   
   const [isCancelling, setIsCancelling] = useState(false)
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false)
@@ -77,6 +79,10 @@ export default function DashboardPage() {
               <Link href="/pricing">
                 <Button variant="ghost">Planes</Button>
               </Link>
+              <Button variant="ghost" onClick={logout}>
+                <LogOut className="h-4 w-4 mr-2" />
+                Cerrar Sesión
+              </Button>
               <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center text-sm font-medium">
                 JP
               </div>
@@ -182,7 +188,7 @@ export default function DashboardPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="rounded-lg border bg-muted/30 p-4 space-y-3">
-                  <div className=\"flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="h-10 w-10 rounded bg-primary/10 flex items-center justify-center">
                         <CreditCard className="h-5 w-5 text-primary" />

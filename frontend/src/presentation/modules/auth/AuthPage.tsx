@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/presentation/components/ui/button"
 import { Input } from "@/presentation/components/ui/input"
 import { Label } from "@/presentation/components/ui/label"
@@ -10,9 +10,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/presentation/compone
 import Link from "next/link"
 import { CreditCard } from "lucide-react"
 import { useAuth } from "@/presentation/hooks/use-auth"
+import { toast } from "sonner"
 
 export default function AuthPage() {
-  const { login, register, isLoading } = useAuth()
+  const { login, register, isLoading, error } = useAuth()
   
   // Login State
   const [loginEmail, setLoginEmail] = useState("")
@@ -23,15 +24,34 @@ export default function AuthPage() {
   const [registerEmail, setRegisterEmail] = useState("")
   const [registerPassword, setRegisterPassword] = useState("")
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-    await login({ email: loginEmail })
-  }
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
-    await register({ email: registerEmail, name: registerName, password: registerPassword })
+    try {
+      await register({ email: registerEmail, name: registerName, password: registerPassword })
+    } catch (err) {
+      // Error is already handled by useAuth hook and will be displayed via toast
+    }
   }
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/65d82a43-c82c-4176-be7d-2ca21d04e8fe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'AuthPage.tsx:26',message:'handleLogin called',data:{email:loginEmail,passwordLength:loginPassword.length,hasPassword:!!loginPassword},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+    // #endregion
+    try {
+      await login({ email: loginEmail, password: loginPassword })
+    } catch (err) {
+      // Error is already handled by useAuth hook and will be displayed via toast
+    }
+  }
+
+  // Display error messages via toast
+  useEffect(() => {
+    if (error) {
+      toast.error(error)
+    }
+  }, [error])
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">

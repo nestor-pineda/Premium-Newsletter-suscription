@@ -1,12 +1,12 @@
 "use client";
 
 import React, { createContext, useContext, ReactNode } from 'react';
-import { AuthRepositoryImpl } from '../../../data/repositories/auth.repository.impl';
-import { SubscriptionRepositoryImpl } from '../../../data/repositories/subscription.repository.impl';
-import { BillingRepositoryImpl } from '../../../data/repositories/billing.repository.impl';
-import { LoginUseCase, RegisterUseCase, GetCurrentUserUseCase, LogoutUseCase } from '../../../domain/usecases/auth.usecases';
-import { GetSubscriptionStatusUseCase, UpdatePlanUseCase, CancelSubscriptionUseCase } from '../../../domain/usecases/subscription.usecases';
-import { GetInvoicesUseCase } from '../../../domain/usecases/billing.usecases';
+import { AuthRepositoryImpl } from '../../data/repositories/auth.repository.impl';
+import { SubscriptionRepositoryImpl } from '../../data/repositories/subscription.repository.impl';
+import { BillingRepositoryImpl } from '../../data/repositories/billing.repository.impl';
+import { LoginUseCase, RegisterUseCase, GetCurrentUserUseCase, LogoutUseCase } from '../../domain/usecases/auth.usecases';
+import { GetSubscriptionStatusUseCase, UpdatePlanUseCase, CancelSubscriptionUseCase } from '../../domain/usecases/subscription.usecases';
+import { GetInvoicesUseCase } from '../../domain/usecases/billing.usecases';
 
 interface DIContainer {
   loginUseCase: LoginUseCase;

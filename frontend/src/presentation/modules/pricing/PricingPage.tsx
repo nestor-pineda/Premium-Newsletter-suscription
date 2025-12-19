@@ -8,6 +8,7 @@ import { Check } from "lucide-react"
 import Link from "next/link"
 import { useSubscriptionActions } from "@/presentation/hooks/use-subscription"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 const plans = [
   {
@@ -71,9 +72,19 @@ export default function PricingPage() {
     setActivatingPlan(planId)
     try {
         await updatePlan(planId)
+        toast.success("Plan activado correctamente")
         router.push('/dashboard')
-    } catch (e) {
+    } catch (e: any) {
         console.error("Failed to update plan", e)
+        const errorMessage = e?.response?.data?.message || e?.message || "Error al activar el plan. Por favor, inicia sesión primero."
+        toast.error(errorMessage)
+        
+        // If 401 Unauthorized, redirect to auth page
+        if (e?.response?.status === 401) {
+          setTimeout(() => {
+            router.push('/auth')
+          }, 2000)
+        }
     } finally {
         setActivatingPlan(null)
     }
